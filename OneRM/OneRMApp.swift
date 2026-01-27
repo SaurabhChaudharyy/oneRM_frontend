@@ -6,18 +6,44 @@
 //
 
 import SwiftUI
+import SwiftData
 
 /// Main application entry point for OneRM workout tracking app
 @main
-struct OneRMApp: App {  
+struct OneRMApp: App {
+    /// SwiftData model container for persistent storage
+    let modelContainer: ModelContainer
+    
     /// Shared user preferences instance
     @StateObject private var userPreferences = UserPreferences.shared
     
-    /// Shared workout repository for API communication
+    /// Shared workout repository for data operations
     @StateObject private var workoutRepository = WorkoutRepository.shared
+    
+    /// Authentication manager for Sign in with Apple/Google
+    @StateObject private var authManager = AuthenticationManager.shared
     
     /// Controls whether the launch screen is shown
     @State private var showLaunchScreen = true
+    
+    init() {
+        // Initialize SwiftData container
+        do {
+            let schema = Schema([
+                PersistedWorkoutSession.self,
+                PersistedExerciseRow.self,
+                PersistedPersonalRecord.self
+            ])
+            let modelConfiguration = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false
+            )
+            modelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])
+            print("✅ OneRMApp: SwiftData initialized successfully")
+        } catch {
+            fatalError("❌ OneRMApp: Could not initialize ModelContainer: \(error)")
+        }
+    }
     
     var body: some Scene {
         WindowGroup {
@@ -25,6 +51,7 @@ struct OneRMApp: App {
                 ContentView()
                     .environmentObject(userPreferences)
                     .environmentObject(workoutRepository)
+                    .environmentObject(authManager)
                 
                 // Launch screen overlay
                 if showLaunchScreen {
@@ -42,5 +69,7 @@ struct OneRMApp: App {
                 }
             }
         }
+        .modelContainer(modelContainer)
     }
 }
+

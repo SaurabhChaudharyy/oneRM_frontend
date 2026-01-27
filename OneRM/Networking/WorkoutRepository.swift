@@ -3,19 +3,22 @@
 //  OneRM
 //
 //  Local-first data repository for workout operations.
-//  This implementation uses MockDataProvider for local storage.
-//  Future: Will be migrated to SwiftData for persistent local storage.
+//  Uses SwiftData for persistent local storage with optional cloud sync.
 //
 
 import Foundation
 
 /// Repository for workout data operations using Repository pattern
-/// Uses local-first approach with MockDataProvider for data storage
+/// Uses local-first approach with SwiftData for persistent storage
 @MainActor
 class WorkoutRepository: ObservableObject {
     static let shared = WorkoutRepository()
     
-    private let dataProvider = MockDataProvider.shared
+    /// SwiftData storage manager for persistent data
+    private let storageManager = StorageManager.shared
+    
+    /// Mock data provider for exercise suggestions and default body parts
+    private let mockDataProvider = MockDataProvider.shared
     
     @Published var isLoading = false
     @Published var error: String?
@@ -24,38 +27,53 @@ class WorkoutRepository: ObservableObject {
     
     // MARK: - Body Parts
     
+    /// Fetch available body parts (uses static defaults)
     func fetchBodyParts() async -> [BodyPart] {
-        return dataProvider.getBodyParts()
+        return mockDataProvider.getBodyParts()
     }
     
     // MARK: - Workouts
     
+    /// Save a workout session to persistent storage
     func saveWorkout(_ workout: WorkoutSession) async -> Result<WorkoutSession, Error> {
         isLoading = true
         defer { isLoading = false }
         
-        // Simulate brief processing delay for UI feedback
-        try? await Task.sleep(nanoseconds: 300_000_000)
+        // Brief delay for UI feedback
+        try? await Task.sleep(nanoseconds: 200_000_000)
         
-        let savedWorkout = dataProvider.saveWorkout(workout)
+        let savedWorkout = storageManager.saveWorkout(workout)
         return .success(savedWorkout)
     }
     
+    /// Fetch all workout sessions from persistent storage
     func fetchWorkouts() async -> [WorkoutSession] {
-        return dataProvider.getWorkouts()
+        return storageManager.fetchWorkouts()
+    }
+    
+    /// Delete a workout session
+    func deleteWorkout(_ workout: WorkoutSession) async {
+        storageManager.deleteWorkout(workout)
+    }
+    
+    /// Delete a workout by ID
+    func deleteWorkout(id: UUID) async {
+        storageManager.deleteWorkout(id: id)
     }
     
     // MARK: - Exercise Suggestions
     
+    /// Fetch exercise name suggestions based on query
     func fetchExerciseSuggestions(query: String) async -> [String] {
         guard !query.isEmpty else { return [] }
-        return dataProvider.getExerciseSuggestions(query: query)
+        return mockDataProvider.getExerciseSuggestions(query: query)
     }
     
     // MARK: - Personal Records
     
+    /// Fetch all personal records from persistent storage
     func fetchPersonalRecords() async -> [PersonalRecord] {
-        return dataProvider.getPersonalRecords()
+        return storageManager.fetchBestPersonalRecords()
     }
     
     func clearError() {
@@ -64,9 +82,9 @@ class WorkoutRepository: ObservableObject {
     
     // MARK: - Clear All Data
     
-    /// Clears all workout data from local storage
+    /// Clears all workout data from persistent storage
     func clearAllData() {
-        dataProvider.clearAllWorkouts()
+        storageManager.clearAllData()
     }
 }
 

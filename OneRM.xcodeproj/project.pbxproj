@@ -16,11 +16,11 @@
 		A1B012 /* WorkoutHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A012 /* WorkoutHistoryView.swift */; };
 		A1B013 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A013 /* SettingsView.swift */; };
 		A1B014 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A014 /* LaunchView.swift */; };
+		A1B015 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A015 /* LoginView.swift */; };
 		A1B020 /* WorkoutSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A020 /* WorkoutSetupViewModel.swift */; };
 		A1B021 /* ExerciseTrackingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A021 /* ExerciseTrackingViewModel.swift */; };
 		A1B022 /* WorkoutHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A022 /* WorkoutHistoryViewModel.swift */; };
 		A1B030 /* WorkoutModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A030 /* WorkoutModels.swift */; };
-
 		A1B041 /* WorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A041 /* WorkoutRepository.swift */; };
 		A1B042 /* MockDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A042 /* MockDataProvider.swift */; };
 		A1B050 /* BodyPartChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A050 /* BodyPartChip.swift */; };
@@ -29,9 +29,13 @@
 		A1B053 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A053 /* EmptyStateView.swift */; };
 		A1B054 /* WorkoutCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A054 /* WorkoutCardView.swift */; };
 		A1B060 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A060 /* UserPreferences.swift */; };
-
 		A1B062 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A062 /* HapticManager.swift */; };
 		A1B063 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A063 /* Extensions.swift */; };
+		A1B070 /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A070 /* SwiftDataModels.swift */; };
+		A1B071 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A071 /* DataController.swift */; };
+		A1B072 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A072 /* StorageManager.swift */; };
+		A1B080 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A080 /* UserModel.swift */; };
+		A1B081 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A081 /* AuthenticationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,11 +48,11 @@
 		A1A012 /* WorkoutHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutHistoryView.swift; sourceTree = "<group>"; };
 		A1A013 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A1A014 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
+		A1A015 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A1A020 /* WorkoutSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSetupViewModel.swift; sourceTree = "<group>"; };
 		A1A021 /* ExerciseTrackingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTrackingViewModel.swift; sourceTree = "<group>"; };
 		A1A022 /* WorkoutHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutHistoryViewModel.swift; sourceTree = "<group>"; };
 		A1A030 /* WorkoutModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutModels.swift; sourceTree = "<group>"; };
-
 		A1A041 /* WorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRepository.swift; sourceTree = "<group>"; };
 		A1A042 /* MockDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataProvider.swift; sourceTree = "<group>"; };
 		A1A050 /* BodyPartChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyPartChip.swift; sourceTree = "<group>"; };
@@ -57,9 +61,14 @@
 		A1A053 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		A1A054 /* WorkoutCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCardView.swift; sourceTree = "<group>"; };
 		A1A060 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
-
 		A1A062 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		A1A063 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A1A070 /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
+		A1A071 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		A1A072 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		A1A080 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		A1A081 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		A1A090 /* OneRM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneRM.entitlements; sourceTree = "<group>"; };
 		A1P001 /* OneRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -87,10 +96,13 @@
 			children = (
 				A1A001 /* OneRMApp.swift */,
 				A1A002 /* ContentView.swift */,
+				A1A090 /* OneRM.entitlements */,
 				A1G010 /* Views */,
 				A1G020 /* ViewModels */,
 				A1G030 /* Models */,
 				A1G040 /* Networking */,
+				A1G070 /* Data */,
+				A1G080 /* Auth */,
 				A1G050 /* Components */,
 				A1G060 /* Utilities */,
 				A1A003 /* Assets.xcassets */,
@@ -115,6 +127,7 @@
 				A1A012 /* WorkoutHistoryView.swift */,
 				A1A013 /* SettingsView.swift */,
 				A1A014 /* LaunchView.swift */,
+				A1A015 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -133,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				A1A030 /* WorkoutModels.swift */,
-
+				A1A080 /* UserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -141,7 +154,6 @@
 		A1G040 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-
 				A1A041 /* WorkoutRepository.swift */,
 				A1A042 /* MockDataProvider.swift */,
 			);
@@ -164,11 +176,28 @@
 			isa = PBXGroup;
 			children = (
 				A1A060 /* UserPreferences.swift */,
-
 				A1A062 /* HapticManager.swift */,
 				A1A063 /* Extensions.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		A1G070 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				A1A070 /* SwiftDataModels.swift */,
+				A1A071 /* DataController.swift */,
+				A1A072 /* StorageManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		A1G080 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A1A081 /* AuthenticationManager.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		A1G100 /* Products */ = {
@@ -260,7 +289,6 @@
 				A1B021 /* ExerciseTrackingViewModel.swift in Sources */,
 				A1B022 /* WorkoutHistoryViewModel.swift in Sources */,
 				A1B030 /* WorkoutModels.swift in Sources */,
-
 				A1B041 /* WorkoutRepository.swift in Sources */,
 				A1B042 /* MockDataProvider.swift in Sources */,
 				A1B050 /* BodyPartChip.swift in Sources */,
@@ -269,9 +297,14 @@
 				A1B053 /* EmptyStateView.swift in Sources */,
 				A1B054 /* WorkoutCardView.swift in Sources */,
 				A1B060 /* UserPreferences.swift in Sources */,
-
 				A1B062 /* HapticManager.swift in Sources */,
 				A1B063 /* Extensions.swift in Sources */,
+				A1B070 /* SwiftDataModels.swift in Sources */,
+				A1B071 /* DataController.swift in Sources */,
+				A1B072 /* StorageManager.swift in Sources */,
+				A1B080 /* UserModel.swift in Sources */,
+				A1B081 /* AuthenticationManager.swift in Sources */,
+				A1B015 /* LoginView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +439,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OneRM/OneRM.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -436,6 +470,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OneRM/OneRM.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
