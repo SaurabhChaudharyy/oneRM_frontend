@@ -1,0 +1,488 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1B001 /* OneRMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A001 /* OneRMApp.swift */; };
+		A1B002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A002 /* ContentView.swift */; };
+		A1B003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1A003 /* Assets.xcassets */; };
+		A1B004 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1A004 /* Preview Assets.xcassets */; };
+		A1B010 /* WorkoutSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A010 /* WorkoutSetupView.swift */; };
+		A1B011 /* ExerciseTrackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A011 /* ExerciseTrackingView.swift */; };
+		A1B012 /* WorkoutHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A012 /* WorkoutHistoryView.swift */; };
+		A1B013 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A013 /* SettingsView.swift */; };
+		A1B014 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A014 /* LaunchView.swift */; };
+		A1B020 /* WorkoutSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A020 /* WorkoutSetupViewModel.swift */; };
+		A1B021 /* ExerciseTrackingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A021 /* ExerciseTrackingViewModel.swift */; };
+		A1B022 /* WorkoutHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A022 /* WorkoutHistoryViewModel.swift */; };
+		A1B030 /* WorkoutModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A030 /* WorkoutModels.swift */; };
+
+		A1B041 /* WorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A041 /* WorkoutRepository.swift */; };
+		A1B042 /* MockDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A042 /* MockDataProvider.swift */; };
+		A1B050 /* BodyPartChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A050 /* BodyPartChip.swift */; };
+		A1B051 /* ExerciseRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A051 /* ExerciseRowView.swift */; };
+		A1B052 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A052 /* LoadingView.swift */; };
+		A1B053 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A053 /* EmptyStateView.swift */; };
+		A1B054 /* WorkoutCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A054 /* WorkoutCardView.swift */; };
+		A1B060 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A060 /* UserPreferences.swift */; };
+
+		A1B062 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A062 /* HapticManager.swift */; };
+		A1B063 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A063 /* Extensions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A1A001 /* OneRMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneRMApp.swift; sourceTree = "<group>"; };
+		A1A002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A1A003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1A004 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A1A010 /* WorkoutSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSetupView.swift; sourceTree = "<group>"; };
+		A1A011 /* ExerciseTrackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTrackingView.swift; sourceTree = "<group>"; };
+		A1A012 /* WorkoutHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutHistoryView.swift; sourceTree = "<group>"; };
+		A1A013 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A1A014 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
+		A1A020 /* WorkoutSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSetupViewModel.swift; sourceTree = "<group>"; };
+		A1A021 /* ExerciseTrackingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTrackingViewModel.swift; sourceTree = "<group>"; };
+		A1A022 /* WorkoutHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutHistoryViewModel.swift; sourceTree = "<group>"; };
+		A1A030 /* WorkoutModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutModels.swift; sourceTree = "<group>"; };
+
+		A1A041 /* WorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRepository.swift; sourceTree = "<group>"; };
+		A1A042 /* MockDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataProvider.swift; sourceTree = "<group>"; };
+		A1A050 /* BodyPartChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyPartChip.swift; sourceTree = "<group>"; };
+		A1A051 /* ExerciseRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRowView.swift; sourceTree = "<group>"; };
+		A1A052 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		A1A053 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		A1A054 /* WorkoutCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCardView.swift; sourceTree = "<group>"; };
+		A1A060 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+
+		A1A062 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		A1A063 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A1P001 /* OneRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1F001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A1G000 = {
+			isa = PBXGroup;
+			children = (
+				A1G001 /* OneRM */,
+				A1G100 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A1G001 /* OneRM */ = {
+			isa = PBXGroup;
+			children = (
+				A1A001 /* OneRMApp.swift */,
+				A1A002 /* ContentView.swift */,
+				A1G010 /* Views */,
+				A1G020 /* ViewModels */,
+				A1G030 /* Models */,
+				A1G040 /* Networking */,
+				A1G050 /* Components */,
+				A1G060 /* Utilities */,
+				A1A003 /* Assets.xcassets */,
+				A1G005 /* Preview Content */,
+			);
+			path = OneRM;
+			sourceTree = "<group>";
+		};
+		A1G005 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				A1A004 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A1G010 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A1A010 /* WorkoutSetupView.swift */,
+				A1A011 /* ExerciseTrackingView.swift */,
+				A1A012 /* WorkoutHistoryView.swift */,
+				A1A013 /* SettingsView.swift */,
+				A1A014 /* LaunchView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A1G020 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A1A020 /* WorkoutSetupViewModel.swift */,
+				A1A021 /* ExerciseTrackingViewModel.swift */,
+				A1A022 /* WorkoutHistoryViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A1G030 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A1A030 /* WorkoutModels.swift */,
+
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A1G040 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+
+				A1A041 /* WorkoutRepository.swift */,
+				A1A042 /* MockDataProvider.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		A1G050 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A1A050 /* BodyPartChip.swift */,
+				A1A051 /* ExerciseRowView.swift */,
+				A1A052 /* LoadingView.swift */,
+				A1A053 /* EmptyStateView.swift */,
+				A1A054 /* WorkoutCardView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A1G060 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A1A060 /* UserPreferences.swift */,
+
+				A1A062 /* HapticManager.swift */,
+				A1A063 /* Extensions.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		A1G100 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1P001 /* OneRM.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A1T001 /* OneRM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1X001 /* Build configuration list for PBXNativeTarget "OneRM" */;
+			buildPhases = (
+				A1S001 /* Sources */,
+				A1F001 /* Frameworks */,
+				A1R001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneRM;
+			productName = OneRM;
+			productReference = A1P001 /* OneRM.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1PRJ1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					A1T001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A1X100 /* Build configuration list for PBXProject "OneRM" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A1G000;
+			productRefGroup = A1G100 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A1T001 /* OneRM */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A1R001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1B004 /* Preview Assets.xcassets in Resources */,
+				A1B003 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A1S001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1B002 /* ContentView.swift in Sources */,
+				A1B001 /* OneRMApp.swift in Sources */,
+				A1B010 /* WorkoutSetupView.swift in Sources */,
+				A1B011 /* ExerciseTrackingView.swift in Sources */,
+				A1B012 /* WorkoutHistoryView.swift in Sources */,
+				A1B013 /* SettingsView.swift in Sources */,
+				A1B014 /* LaunchView.swift in Sources */,
+				A1B020 /* WorkoutSetupViewModel.swift in Sources */,
+				A1B021 /* ExerciseTrackingViewModel.swift in Sources */,
+				A1B022 /* WorkoutHistoryViewModel.swift in Sources */,
+				A1B030 /* WorkoutModels.swift in Sources */,
+
+				A1B041 /* WorkoutRepository.swift in Sources */,
+				A1B042 /* MockDataProvider.swift in Sources */,
+				A1B050 /* BodyPartChip.swift in Sources */,
+				A1B051 /* ExerciseRowView.swift in Sources */,
+				A1B052 /* LoadingView.swift in Sources */,
+				A1B053 /* EmptyStateView.swift in Sources */,
+				A1B054 /* WorkoutCardView.swift in Sources */,
+				A1B060 /* UserPreferences.swift in Sources */,
+
+				A1B062 /* HapticManager.swift in Sources */,
+				A1B063 /* Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A1C001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 96V47BHQ82;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A1C002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 96V47BHQ82;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A1C011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"OneRM/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.onerm.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A1C012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"OneRM/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.onerm.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A1X001 /* Build configuration list for PBXNativeTarget "OneRM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1C011 /* Debug */,
+				A1C012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1X100 /* Build configuration list for PBXProject "OneRM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1C001 /* Debug */,
+				A1C002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A1PRJ1 /* Project object */;
+}
