@@ -63,9 +63,27 @@ final class DataController {
     /// Delete all data - useful for reset functionality
     func deleteAllData() {
         do {
-            try context.delete(model: PersistedExerciseRow.self)
-            try context.delete(model: PersistedWorkoutSession.self)
-            try context.delete(model: PersistedPersonalRecord.self)
+            // First, fetch and delete workout sessions (which will cascade delete exercises due to deleteRule)
+            let workoutDescriptor = FetchDescriptor<PersistedWorkoutSession>()
+            let workouts = try context.fetch(workoutDescriptor)
+            for workout in workouts {
+                context.delete(workout)
+            }
+            
+            // Delete any orphaned exercises (shouldn't exist, but just in case)
+            let exerciseDescriptor = FetchDescriptor<PersistedExerciseRow>()
+            let exercises = try context.fetch(exerciseDescriptor)
+            for exercise in exercises {
+                context.delete(exercise)
+            }
+            
+            // Delete personal records
+            let recordDescriptor = FetchDescriptor<PersistedPersonalRecord>()
+            let records = try context.fetch(recordDescriptor)
+            for record in records {
+                context.delete(record)
+            }
+            
             try context.save()
             print("✅ SwiftData: All data deleted successfully")
         } catch {
@@ -73,3 +91,4 @@ final class DataController {
         }
     }
 }
+

@@ -86,5 +86,27 @@ class WorkoutRepository: ObservableObject {
     func clearAllData() {
         storageManager.clearAllData()
     }
+    
+    // MARK: - Calendar & History Features
+    
+    /// Fetch workouts for a specific date
+    func fetchWorkoutsForDate(_ date: Date) async -> [WorkoutSession] {
+        return storageManager.fetchWorkoutsForDate(date)
+    }
+    
+    /// Fetch all dates that have workouts (for calendar markers)
+    func fetchWorkoutDates() async -> [Date: [WorkoutSession]] {
+        return storageManager.fetchWorkoutDates()
+    }
+    
+    /// Fetch previous exercise data for showing history/PRs
+    func fetchPreviousExerciseData(exerciseName: String, bodyPartNames: [String]) async -> [ExerciseRow] {
+        return storageManager.fetchPreviousExerciseData(exerciseName: exerciseName, bodyPartNames: bodyPartNames)
+    }
+    
+    /// Get best PR for a specific exercise
+    func fetchBestPRForExercise(exerciseName: String) async -> PersonalRecord? {
+        return storageManager.fetchBestPRForExercise(exerciseName: exerciseName)
+    }
 }
 

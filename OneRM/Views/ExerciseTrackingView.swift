@@ -133,9 +133,11 @@ struct ExerciseTrackingView: View {
             Text("Weight")
                 .frame(width: 70)
             Text("Reps")
+                .frame(width: 40)
+            Text("Effort")
                 .frame(width: 50)
-            Text("Total")
-                .frame(width: 80)
+            Text("")  // Delete column
+                .frame(width: 30)
         }
         .font(.caption)
         .fontWeight(.semibold)
@@ -242,100 +244,191 @@ struct ExerciseTrackingView: View {
 
 struct ExerciseInputRow: View {
     let row: ExerciseRow
-    var viewModel: ExerciseTrackingViewModel // Removed @ObservedObject to prevent unnecessary redraws
+    var viewModel: ExerciseTrackingViewModel
     @EnvironmentObject var userPreferences: UserPreferences
     @FocusState var focusedField: ExerciseTrackingView.FocusField?
     
     @State private var exerciseText: String = ""
     @State private var weightText: String = ""
     @State private var repsText: String = ""
+    @State private var showingEffortPicker = false
+    @State private var selectedEffort: EffortLevel? = nil
+    @State private var showPRBadge = false
     
-    // Character limits
-    private let maxExerciseNameLength = 30
-    private let maxWeightLength = 6
-    private let maxRepsLength = 4
+    // Character limits - Updated for stricter validation
+    private let maxExerciseNameLength = 15  // Reduced from 30
+    private let maxWeightLength = 3         // Allows up to 999
+    private let maxRepsLength = 2           // Reduced from 4 to 2 digits
+    
+    /// Get the previous PR for this exercise
+    private var previousPR: PersonalRecord? {
+        viewModel.getPreviousPR(for: exerciseText)
+    }
     
     var body: some View {
-        HStack(spacing: 8) {
-            // Exercise Name (limited to 30 characters)
-            TextField("Exercise", text: $exerciseText)
-                .textFieldStyle(.plain)
-                .focused($focusedField, equals: .exercise(row.id))
-                .onChange(of: exerciseText) { _, newValue in
-                    // Limit character input
-                    if newValue.count > maxExerciseNameLength {
-                        exerciseText = String(newValue.prefix(maxExerciseNameLength))
-                    }
-                    viewModel.updateExerciseName(for: row.id, name: exerciseText)
-                }
-                .frame(maxWidth: .infinity)
-            
-            // Weight (limited to 6 characters, uses default unit)
-            HStack(spacing: 4) {
-                TextField("0", text: $weightText)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 8) {
+                // Exercise Name (limited to 15 characters, letters only)
+                TextField("Exercise", text: $exerciseText)
                     .textFieldStyle(.plain)
-                    .keyboardType(.decimalPad)
-                    .focused($focusedField, equals: .weight(row.id))
-                    .onChange(of: weightText) { _, newValue in
+                    .focused($focusedField, equals: .exercise(row.id))
+                    .onChange(of: exerciseText) { _, newValue in
+                        // Filter to only allow letters and spaces
+                        let filtered = newValue.filter { $0.isLetter || $0.isWhitespace }
                         // Limit character input
-                        if newValue.count > maxWeightLength {
-                            weightText = String(newValue.prefix(maxWeightLength))
+                        if filtered.count > maxExerciseNameLength {
+                            exerciseText = String(filtered.prefix(maxExerciseNameLength))
+                        } else if filtered != newValue {
+                            exerciseText = filtered
                         }
-                        if let weight = Double(weightText) {
-                            viewModel.updateWeight(for: row.id, weight: weight)
+                        viewModel.updateExerciseName(for: row.id, name: exerciseText)
+                        
+                        // Fetch previous PR when exercise name changes
+                        if !exerciseText.isEmpty {
+                            Task {
+                                await viewModel.fetchPreviousPR(for: exerciseText)
+                            }
                         }
                     }
-                    .frame(width: 45)
-                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: .infinity)
                 
-                // Static unit label (no toggle - uses default unit from settings)
-                Text(userPreferences.defaultWeightUnit.displayName)
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .foregroundStyle(.secondary)
-            }
-            .frame(width: 70)
-            
-            // Reps (limited to 4 characters)
-            TextField("0", text: $repsText)
-                .textFieldStyle(.plain)
-                .keyboardType(.numberPad)
-                .focused($focusedField, equals: .reps(row.id))
-                .onChange(of: repsText) { _, newValue in
-                    // Limit character input
-                    if newValue.count > maxRepsLength {
-                        repsText = String(newValue.prefix(maxRepsLength))
+                // Weight (limited to 3 digits, numbers only)
+                HStack(spacing: 4) {
+                    TextField("0", text: $weightText)
+                        .textFieldStyle(.plain)
+                        .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .weight(row.id))
+                        .onChange(of: weightText) { _, newValue in
+                            // Filter to only allow digits
+                            let filtered = newValue.filter { $0.isNumber }
+                            // Limit to 3 digits
+                            if filtered.count > maxWeightLength {
+                                weightText = String(filtered.prefix(maxWeightLength))
+                            } else if filtered != newValue {
+                                weightText = filtered
+                            }
+                            if let weight = Double(weightText) {
+                                viewModel.updateWeight(for: row.id, weight: weight)
+                            } else if weightText.isEmpty {
+                                viewModel.updateWeight(for: row.id, weight: 0)
+                            }
+                        }
+                        .frame(width: 35)
+                        .multilineTextAlignment(.trailing)
+                    
+                    // Static unit label
+                    Text(userPreferences.defaultWeightUnit.displayName)
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(width: 70)
+                
+                // Reps (limited to 2 digits, numbers only)
+                TextField("0", text: $repsText)
+                    .textFieldStyle(.plain)
+                    .keyboardType(.numberPad)
+                    .focused($focusedField, equals: .reps(row.id))
+                    .onChange(of: repsText) { _, newValue in
+                        // Filter to only allow digits
+                        let filtered = newValue.filter { $0.isNumber }
+                        // Limit to 2 digits
+                        if filtered.count > maxRepsLength {
+                            repsText = String(filtered.prefix(maxRepsLength))
+                        } else if filtered != newValue {
+                            repsText = filtered
+                        }
+                        if let reps = Int(repsText) {
+                            viewModel.updateReps(for: row.id, reps: reps)
+                        } else if repsText.isEmpty {
+                            viewModel.updateReps(for: row.id, reps: 0)
+                        }
                     }
-                    if let reps = Int(repsText) {
-                        viewModel.updateReps(for: row.id, reps: reps)
+                    .frame(width: 40)
+                    .multilineTextAlignment(.center)
+                
+                // Effort Level Button
+                Button {
+                    showingEffortPicker = true
+                } label: {
+                    if let effort = selectedEffort {
+                        Image(systemName: effort.iconName)
+                            .font(.title3)
+                            .foregroundStyle(effortColor(for: effort))
+                    } else {
+                        Image(systemName: "plus.circle")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
                     }
                 }
                 .frame(width: 50)
-                .multilineTextAlignment(.center)
+                .confirmationDialog("How hard was this set?", isPresented: $showingEffortPicker, titleVisibility: .visible) {
+                    ForEach(EffortLevel.allCases, id: \.self) { level in
+                        Button(level.displayName) {
+                            selectedEffort = level
+                            viewModel.updateEffortLevel(for: row.id, effort: level)
+                        }
+                    }
+                    Button("Clear", role: .destructive) {
+                        selectedEffort = nil
+                        viewModel.updateEffortLevel(for: row.id, effort: nil)
+                    }
+                    Button("Cancel", role: .cancel) { }
+                }
+                
+                // Delete Button
+                Button(role: .destructive) {
+                    viewModel.deleteRow(row)
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.caption)
+                        .foregroundStyle(.red.opacity(0.8))
+                }
+                .frame(width: 30)
+            }
             
-            // Total (calculated, read-only) - uses default unit
-            Text(row.formattedTotal(in: userPreferences.defaultWeightUnit))
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundStyle(row.totalVolume > 0 ? .primary : .secondary)
-                .frame(width: 80)
-                .multilineTextAlignment(.trailing)
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 12)
-        .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive) {
-                viewModel.deleteRow(row)
-            } label: {
-                Label("Delete", systemImage: "trash")
+            // Show Previous PR Badge if available
+            if let pr = previousPR {
+                HStack(spacing: 4) {
+                    Image(systemName: "trophy.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.orange)
+                    Text("PR: \(Int(pr.weight))\(userPreferences.defaultWeightUnit.displayName) × \(pr.reps) reps")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                .padding(.top, 2)
+                .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
+        .padding(.horizontal, 12)
+        .padding(.vertical, previousPR != nil ? 10 : 12)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .animation(.easeInOut(duration: 0.2), value: previousPR != nil)
         .onAppear {
             exerciseText = row.exerciseName
             weightText = row.weight > 0 ? String(format: "%.0f", row.weight) : ""
             repsText = row.reps > 0 ? "\(row.reps)" : ""
+            selectedEffort = row.effortLevel
+            
+            // Fetch PR on appear if exercise name exists
+            if !row.exerciseName.isEmpty {
+                Task {
+                    await viewModel.fetchPreviousPR(for: row.exerciseName)
+                }
+            }
+        }
+    }
+    
+    // Helper function to get color for effort level
+    private func effortColor(for effort: EffortLevel) -> Color {
+        switch effort {
+        case .easy: return .green
+        case .moderate: return .yellow
+        case .hard: return .orange
+        case .maxEffort: return .red
         }
     }
 }
@@ -349,3 +442,4 @@ struct ExerciseInputRow: View {
     }
     .environmentObject(UserPreferences.shared)
 }
+

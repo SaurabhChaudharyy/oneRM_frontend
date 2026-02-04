@@ -38,11 +38,40 @@ struct BodyPart: Identifiable, Codable, Hashable {
         BodyPart(name: "Chest"),
         BodyPart(name: "Back"),
         BodyPart(name: "Shoulders"),
-        BodyPart(name: "Arms"),
+        BodyPart(name: "Biceps"),
+        BodyPart(name: "Triceps"),
         BodyPart(name: "Legs"),
         BodyPart(name: "Core/Abs"),
         BodyPart(name: "Full Body")
     ]
+}
+
+// MARK: - Effort Level
+enum EffortLevel: String, Codable, CaseIterable {
+    case easy = "Easy"
+    case moderate = "Moderate"
+    case hard = "Hard"
+    case maxEffort = "Max Effort"
+    
+    var displayName: String { rawValue }
+    
+    var iconName: String {
+        switch self {
+        case .easy: return "1.circle.fill"
+        case .moderate: return "2.circle.fill"
+        case .hard: return "3.circle.fill"
+        case .maxEffort: return "4.circle.fill"
+        }
+    }
+    
+    var color: String {
+        switch self {
+        case .easy: return "green"
+        case .moderate: return "yellow"
+        case .hard: return "orange"
+        case .maxEffort: return "red"
+        }
+    }
 }
 
 // MARK: - Exercise Row
@@ -52,6 +81,7 @@ struct ExerciseRow: Identifiable, Codable {
     var weight: Double
     var reps: Int
     var unit: WeightUnit
+    var effortLevel: EffortLevel?
     
     var totalVolume: Double { weight * Double(reps) }
     
@@ -63,12 +93,13 @@ struct ExerciseRow: Identifiable, Codable {
             : String(format: "%.1f \(unit.displayName)", total)
     }
     
-    init(id: UUID = UUID(), exerciseName: String = "", weight: Double = 0, reps: Int = 0, unit: WeightUnit = .lbs) {
+    init(id: UUID = UUID(), exerciseName: String = "", weight: Double = 0, reps: Int = 0, unit: WeightUnit = .lbs, effortLevel: EffortLevel? = nil) {
         self.id = id
         self.exerciseName = exerciseName
         self.weight = weight
         self.reps = reps
         self.unit = unit
+        self.effortLevel = effortLevel
     }
     
     var isValid: Bool { !exerciseName.trimmingCharacters(in: .whitespaces).isEmpty && weight > 0 && reps > 0 }

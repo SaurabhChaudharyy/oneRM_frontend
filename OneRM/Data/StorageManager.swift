@@ -43,9 +43,17 @@ final class StorageManager {
     
     /// Save a new workout session or update existing one
     func saveWorkout(_ workout: WorkoutSession) -> WorkoutSession {
+        // Normalize exercise names before saving (lowercase + trim for consistent matching)
+        var normalizedWorkout = workout
+        normalizedWorkout.exercises = workout.exercises.map { exercise in
+            var normalizedExercise = exercise
+            normalizedExercise.exerciseName = normalizeExerciseName(exercise.exerciseName)
+            return normalizedExercise
+        }
+        
         // Check if workout already exists
         let existingDescriptor = FetchDescriptor<PersistedWorkoutSession>(
-            predicate: #Predicate { $0.id == workout.id }
+            predicate: #Predicate { $0.id == normalizedWorkout.id }
         )
         
         do {
@@ -53,25 +61,25 @@ final class StorageManager {
             
             if let existing = existing {
                 // Update existing workout
-                existing.update(from: workout)
-                updateExercises(for: existing, from: workout.exercises)
-                print("✏️ SwiftData: Updated existing workout: \(workout.id)")
+                existing.update(from: normalizedWorkout)
+                updateExercises(for: existing, from: normalizedWorkout.exercises)
+                print("✏️ SwiftData: Updated existing workout: \(normalizedWorkout.id)")
             } else {
                 // Create new workout
-                let persisted = PersistedWorkoutSession.from(workout)
+                let persisted = PersistedWorkoutSession.from(normalizedWorkout)
                 context.insert(persisted)
                 
                 // Add exercises with order
-                for (index, exercise) in workout.exercises.enumerated() where exercise.isValid {
+                for (index, exercise) in normalizedWorkout.exercises.enumerated() where exercise.isValid {
                     let persistedExercise = PersistedExerciseRow.from(exercise, order: index)
                     persistedExercise.workoutSession = persisted
                     context.insert(persistedExercise)
                 }
-                print("➕ SwiftData: Created new workout: \(workout.id)")
+                print("➕ SwiftData: Created new workout: \(normalizedWorkout.id)")
             }
             
             // Update personal records
-            updatePersonalRecords(from: workout)
+            updatePersonalRecords(from: normalizedWorkout)
             
             dataController.save()
             
@@ -79,7 +87,12 @@ final class StorageManager {
             print("❌ SwiftData: Failed to save workout: \(error.localizedDescription)")
         }
         
-        return workout
+        return normalizedWorkout
+    }
+    
+    /// Normalize exercise name: trim whitespace and convert to lowercase for consistent matching
+    private func normalizeExerciseName(_ name: String) -> String {
+        return name.trimmingCharacters(in: .whitespaces).lowercased()
     }
     
     /// Delete a workout session
@@ -154,6 +167,90 @@ final class StorageManager {
         }
         
         return Array(bestByExercise.values).sorted { $0.date > $1.date }
+    }
+    
+    /// Fetch workouts for a specific date
+    func fetchWorkoutsForDate(_ date: Date) -> [WorkoutSession] {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        
+        let descriptor = FetchDescriptor<PersistedWorkoutSession>(
+            predicate: #Predicate { workout in
+                workout.date >= startOfDay && workout.date < endOfDay
+            },
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
+        
+        do {
+            let results = try context.fetch(descriptor)
+            return results.map { $0.toDomainModel() }
+        } catch {
+            print("❌ SwiftData: Failed to fetch workouts for date: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    /// Fetch all dates that have workouts (for calendar display)
+    func fetchWorkoutDates() -> [Date: [WorkoutSession]] {
+        let workouts = fetchWorkouts()
+        let calendar = Calendar.current
+        
+        var dateGroups: [Date: [WorkoutSession]] = [:]
+        for workout in workouts {
+            let startOfDay = calendar.startOfDay(for: workout.date)
+            if dateGroups[startOfDay] != nil {
+                dateGroups[startOfDay]?.append(workout)
+            } else {
+                dateGroups[startOfDay] = [workout]
+            }
+        }
+        
+        return dateGroups
+    }
+    
+    /// Fetch previous exercise data for a given exercise name and body parts
+    /// Returns all previous exercises matching the name (normalized) to show history/PRs
+    func fetchPreviousExerciseData(exerciseName: String, bodyPartNames: [String]) -> [ExerciseRow] {
+        guard !exerciseName.isEmpty else { return [] }
+        
+        let normalizedName = exerciseName.lowercased().trimmingCharacters(in: .whitespaces)
+        let normalizedBodyParts = Set(bodyPartNames.map { $0.lowercased().trimmingCharacters(in: .whitespaces) })
+        
+        let allWorkouts = fetchWorkouts()
+        var matchingExercises: [ExerciseRow] = []
+        
+        for workout in allWorkouts {
+            // Check if workout has matching body parts
+            let workoutBodyParts = Set(workout.bodyParts.map { $0.name.lowercased().trimmingCharacters(in: .whitespaces) })
+            let hasMatchingBodyPart = !normalizedBodyParts.isDisjoint(with: workoutBodyParts)
+            
+            if hasMatchingBodyPart {
+                // Find exercises with matching name
+                for exercise in workout.exercises where exercise.isValid {
+                    let exerciseNormalized = exercise.exerciseName.lowercased().trimmingCharacters(in: .whitespaces)
+                    if exerciseNormalized == normalizedName {
+                        matchingExercises.append(exercise)
+                    }
+                }
+            }
+        }
+        
+        // Sort by weight * reps (volume) descending to show best performances first
+        return matchingExercises.sorted { ($0.weight * Double($0.reps)) > ($1.weight * Double($1.reps)) }
+    }
+    
+    /// Get best PR for a specific exercise name
+    func fetchBestPRForExercise(exerciseName: String) -> PersonalRecord? {
+        let normalizedName = exerciseName.lowercased().trimmingCharacters(in: .whitespaces)
+        let allRecords = fetchPersonalRecords()
+        
+        let matchingRecords = allRecords.filter {
+            $0.exerciseName.lowercased().trimmingCharacters(in: .whitespaces) == normalizedName
+        }
+        
+        // Return the one with highest volume
+        return matchingRecords.max(by: { ($0.weight * Double($0.reps)) < ($1.weight * Double($1.reps)) })
     }
     
     // MARK: - Clear All Data

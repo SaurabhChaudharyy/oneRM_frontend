@@ -10,6 +10,7 @@ struct BodyPartChip: View {
     let bodyPart: BodyPart
     let isSelected: Bool
     let action: () -> Void
+    var onDelete: (() -> Void)? = nil  // Optional delete callback for custom body parts
     
     var body: some View {
         Button(action: action) {
@@ -21,6 +22,18 @@ struct BodyPartChip: View {
                 Text(bodyPart.name)
                     .font(.subheadline)
                     .fontWeight(.medium)
+                
+                // Delete button for custom body parts
+                if bodyPart.isCustom, let onDelete = onDelete {
+                    Button {
+                        onDelete()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 14))
+                            .foregroundStyle(.red.opacity(0.8))
+                    }
+                    .buttonStyle(.plain)
+                }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
@@ -48,9 +61,10 @@ struct BodyPartChip: View {
 
 #Preview {
     VStack(spacing: 16) {
-        BodyPartChip(bodyPart: BodyPart(name: "Chest"), isSelected: true) { }
-        BodyPartChip(bodyPart: BodyPart(name: "Back"), isSelected: false) { }
-        BodyPartChip(bodyPart: BodyPart(name: "Custom", isCustom: true), isSelected: true) { }
+        BodyPartChip(bodyPart: BodyPart(name: "Chest"), isSelected: true, action: { })
+        BodyPartChip(bodyPart: BodyPart(name: "Back"), isSelected: false, action: { })
+        BodyPartChip(bodyPart: BodyPart(name: "Custom", isCustom: true), isSelected: true, action: { }, onDelete: { print("Delete") })
     }
     .padding()
 }
+

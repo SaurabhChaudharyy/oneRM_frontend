@@ -108,6 +108,13 @@ class ExerciseTrackingViewModel: ObservableObject {
         HapticManager.shared.selection()
     }
     
+    func updateEffortLevel(for rowId: UUID, effort: EffortLevel?) {
+        guard let index = exerciseRows.firstIndex(where: { $0.id == rowId }) else { return }
+        exerciseRows[index].effortLevel = effort
+        hasUnsavedChanges = true
+        HapticManager.shared.selection()
+    }
+    
     // MARK: - Suggestions
     
     func fetchSuggestions(for query: String) async {
@@ -126,6 +133,37 @@ class ExerciseTrackingViewModel: ObservableObject {
         updateExerciseName(for: rowId, name: suggestion)
         exerciseSuggestions = []
         showingSuggestions = false
+    }
+    
+    // MARK: - Previous Exercise PRs
+    
+    /// Cache of previous PRs for exercises
+    @Published var previousPRs: [String: PersonalRecord] = [:]
+    
+    /// Get body part names for the current workout
+    var bodyPartNames: [String] {
+        workoutSession.bodyParts.map { $0.name }
+    }
+    
+    /// Fetch previous PR for an exercise name
+    func fetchPreviousPR(for exerciseName: String) async {
+        guard !exerciseName.isEmpty else { return }
+        
+        let normalizedName = exerciseName.lowercased().trimmingCharacters(in: .whitespaces)
+        
+        // Check if we already have this cached
+        if previousPRs[normalizedName] != nil { return }
+        
+        // Fetch from repository
+        if let pr = await repository.fetchBestPRForExercise(exerciseName: exerciseName) {
+            previousPRs[normalizedName] = pr
+        }
+    }
+    
+    /// Get previous PR for an exercise name (from cache)
+    func getPreviousPR(for exerciseName: String) -> PersonalRecord? {
+        let normalizedName = exerciseName.lowercased().trimmingCharacters(in: .whitespaces)
+        return previousPRs[normalizedName]
     }
     
     // MARK: - Save

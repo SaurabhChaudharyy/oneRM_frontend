@@ -20,9 +20,6 @@ struct OneRMApp: App {
     /// Shared workout repository for data operations
     @StateObject private var workoutRepository = WorkoutRepository.shared
     
-    /// Authentication manager for Sign in with Apple/Google
-    @StateObject private var authManager = AuthenticationManager.shared
-    
     /// Controls whether the launch screen is shown
     @State private var showLaunchScreen = true
     
@@ -51,7 +48,6 @@ struct OneRMApp: App {
                 ContentView()
                     .environmentObject(userPreferences)
                     .environmentObject(workoutRepository)
-                    .environmentObject(authManager)
                 
                 // Launch screen overlay
                 if showLaunchScreen {
@@ -72,4 +68,3 @@ struct OneRMApp: App {
         .modelContainer(modelContainer)
     }
 }
-

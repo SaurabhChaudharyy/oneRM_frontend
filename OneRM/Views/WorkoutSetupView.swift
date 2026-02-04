@@ -9,6 +9,7 @@ import SwiftUI
 struct WorkoutSetupView: View {
     @StateObject private var viewModel = WorkoutSetupViewModel()
     @State private var navigateToTracking = false
+    @State private var navigateToHistory = false
     @EnvironmentObject var userPreferences: UserPreferences
     
     var body: some View {
@@ -17,7 +18,11 @@ struct WorkoutSetupView: View {
                 // Isolated Input Section (Header, Date, Name)
                 WorkoutInputSection(
                     workoutName: $viewModel.workoutName,
-                    workoutDate: $viewModel.workoutDate
+                    workoutDate: $viewModel.workoutDate,
+                    workoutDates: viewModel.workoutDates,
+                    onDateWithWorkoutTapped: { _ in
+                        navigateToHistory = true
+                    }
                 )
                 
                 // Equatable Grid (Only redraws when chips change, ignores typing)
@@ -25,7 +30,8 @@ struct WorkoutSetupView: View {
                     availableBodyParts: viewModel.availableBodyParts,
                     selectedBodyParts: viewModel.selectedBodyParts,
                     onToggle: viewModel.toggleBodyPart,
-                    onAddCustom: { viewModel.showingAddCustom = true }
+                    onAddCustom: { viewModel.showingAddCustom = true },
+                    onDeleteCustom: viewModel.deleteCustomBodyPart
                 )
                 
                 selectedChipsSection
@@ -46,9 +52,13 @@ struct WorkoutSetupView: View {
         .navigationDestination(isPresented: $navigateToTracking) {
             ExerciseTrackingView(workoutSession: viewModel.createWorkoutSession())
         }
+        .navigationDestination(isPresented: $navigateToHistory) {
+            WorkoutHistoryView()
+        }
         .onChange(of: navigateToTracking) { _, newValue in
             if !newValue {
                 viewModel.reset()
+                Task { await viewModel.loadWorkoutDates() }  // Refresh dates after returning
             }
         }
         .sheet(isPresented: $viewModel.showingAddCustom) {
@@ -228,6 +238,15 @@ struct FlowLayout: Layout {
 struct WorkoutInputSection: View {
     @Binding var workoutName: String
     @Binding var workoutDate: Date
+    var workoutDates: [Date: [WorkoutSession]] = [:]
+    var onDateWithWorkoutTapped: ((Date) -> Void)? = nil
+    
+    /// Get workouts for the currently selected date
+    private var workoutsOnSelectedDate: [WorkoutSession] {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: workoutDate)
+        return workoutDates[startOfDay] ?? []
+    }
     
     var body: some View {
         VStack(spacing: 24) {
@@ -263,6 +282,52 @@ struct WorkoutInputSection: View {
                 .padding()
                 .background(Color(.secondarySystemGroupedBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 16))
+                
+                // Show workout info for selected date
+                if !workoutsOnSelectedDate.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                            Text("\(workoutsOnSelectedDate.count) workout\(workoutsOnSelectedDate.count > 1 ? "s" : "") on this date")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                        }
+                        
+                        ForEach(workoutsOnSelectedDate.prefix(3)) { workout in
+                            HStack {
+                                Text("• \(workout.displayName)")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Text("\(workout.exerciseCount) exercises")
+                                    .font(.caption2)
+                                    .foregroundStyle(.tertiary)
+                            }
+                        }
+                        
+                        if workoutsOnSelectedDate.count > 3 {
+                            Text("and \(workoutsOnSelectedDate.count - 3) more...")
+                                .font(.caption2)
+                                .foregroundStyle(.tertiary)
+                        }
+                        
+                        Button {
+                            onDateWithWorkoutTapped?(workoutDate)
+                        } label: {
+                            HStack {
+                                Text("View in History")
+                                Image(systemName: "arrow.right.circle")
+                            }
+                            .font(.caption)
+                            .fontWeight(.medium)
+                        }
+                        .padding(.top, 4)
+                    }
+                    .padding()
+                    .background(Color.green.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
             }
             
             // Name Section
@@ -288,6 +353,7 @@ struct BodyPartGridView: View, Equatable {
     let selectedBodyParts: Set<UUID>
     let onToggle: (BodyPart) -> Void
     let onAddCustom: () -> Void
+    var onDeleteCustom: ((BodyPart) -> Void)? = nil  // Optional delete callback
     
     static func == (lhs: BodyPartGridView, rhs: BodyPartGridView) -> Bool {
         lhs.availableBodyParts == rhs.availableBodyParts &&
@@ -313,12 +379,13 @@ struct BodyPartGridView: View, Equatable {
                 ForEach(availableBodyParts) { bodyPart in
                     BodyPartChip(
                         bodyPart: bodyPart,
-                        isSelected: selectedBodyParts.contains(bodyPart.id)
-                    ) {
-                        onToggle(bodyPart)
-                    }
+                        isSelected: selectedBodyParts.contains(bodyPart.id),
+                        action: { onToggle(bodyPart) },
+                        onDelete: bodyPart.isCustom ? { onDeleteCustom?(bodyPart) } : nil
+                    )
                 }
             }
         }
     }
 }
+

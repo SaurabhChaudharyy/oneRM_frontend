@@ -16,6 +16,7 @@ class WorkoutSetupViewModel: ObservableObject {
     @Published var customBodyPartName: String = ""
     @Published var isLoading = false
     @Published var showingAddCustom = false
+    @Published var workoutDates: [Date: [WorkoutSession]] = [:]  // Dates with workouts
     
     private let repository = WorkoutRepository.shared
     
@@ -28,13 +29,34 @@ class WorkoutSetupViewModel: ObservableObject {
     }
     
     init() {
-        Task { await loadBodyParts() }
+        Task {
+            await loadBodyParts()
+            await loadWorkoutDates()
+        }
     }
     
     func loadBodyParts() async {
         isLoading = true
         availableBodyParts = await repository.fetchBodyParts()
         isLoading = false
+    }
+    
+    func loadWorkoutDates() async {
+        workoutDates = await repository.fetchWorkoutDates()
+    }
+    
+    /// Get workouts for a specific date (for calendar display)
+    func getWorkoutsForDate(_ date: Date) -> [WorkoutSession] {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        return workoutDates[startOfDay] ?? []
+    }
+    
+    /// Check if a date has workouts
+    func hasWorkoutsOnDate(_ date: Date) -> Bool {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        return workoutDates[startOfDay] != nil && !(workoutDates[startOfDay]?.isEmpty ?? true)
     }
     
     func toggleBodyPart(_ bodyPart: BodyPart) {
@@ -61,6 +83,18 @@ class WorkoutSetupViewModel: ObservableObject {
         customBodyPartName = ""
         showingAddCustom = false
         HapticManager.shared.success()
+    }
+    
+    func deleteCustomBodyPart(_ bodyPart: BodyPart) {
+        guard bodyPart.isCustom else { return }  // Only allow deleting custom body parts
+        
+        // Remove from selected if it was selected
+        selectedBodyParts.remove(bodyPart.id)
+        
+        // Remove from available list
+        availableBodyParts.removeAll { $0.id == bodyPart.id }
+        
+        HapticManager.shared.light()
     }
     
     func createWorkoutSession() -> WorkoutSession {
